@@ -1,0 +1,23 @@
+# summary: grlc get-keyevents-from-chemical: Key Events of the AOPs with a stressor containing a chemical
+# (fixed: exact CAS match instead of a substring regex)
+# param: chemical iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT ?chemicalName ?StressorLookUp ?AOPname ?AOPLookUp ?KEname ?KEofAOP
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?chemical { ?__chemical }
+  ?chemical a cheminf:000000 ;
+    dc:title ?chemicalName ;
+    dcterms:isPartOf ?StressorLookUp .
+  ?StressorLookUp a nci:C54571 ;
+    dcterms:isPartOf ?AOPLookUp .
+  ?AOPLookUp a aopo:AdverseOutcomePathway ;
+    aopo:has_key_event ?KEofAOP ;
+    dc:title ?AOPname .
+  ?KEofAOP a aopo:KeyEvent ;
+    dc:title ?KEname .
+}

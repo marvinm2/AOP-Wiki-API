@@ -1,0 +1,15 @@
+# summary: Page of Key Event Relationships matching the filters, ordered by KER number
+# param: limit int
+# param: offset int
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX edam: <http://edamontology.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT DISTINCT ?ker (xsd:integer(STRAFTER(STR(?ker), "/aop.relationships/")) AS ?number)
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?ker a aopo:KeyEventRelationship .
+  # include: kers/_filters
+}
+ORDER BY ?number
+LIMIT ?__limit
+OFFSET ?__offset

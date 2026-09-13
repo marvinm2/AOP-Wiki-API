@@ -1,0 +1,18 @@
+# summary: grlc get-methods-for-aop-simple: measurement methods of the Key Events of an AOP
+# (fixed: the original built an http:// IRI and returned nothing)
+# param: aop iri
+# param: aop_number int
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX mmo: <http://purl.obolibrary.org/obo/MMO_>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?AopLabel ?KeyEventID (?KeLook AS ?KeyEventURL) ?AssayText (?__aop_number AS ?aopfilter)
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?aop { ?__aop }
+  ?KeLook a aopo:KeyEvent ;
+    rdfs:label ?KeyEventID ;
+    dcterms:isPartOf ?aop ;
+    mmo:0000000 ?AssayText .
+  ?aop rdfs:label ?AopLabel .
+}

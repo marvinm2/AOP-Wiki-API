@@ -1,0 +1,12 @@
+# summary: AOPs that contain one Key Event, with the Key Event's role in each
+# param: ke iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+SELECT ?aop ?title ?is_mie ?is_ao
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?aop aopo:has_key_event ?__ke .
+  OPTIONAL { ?aop dc:title ?title }
+  BIND(EXISTS { ?aop aopo:has_molecular_initiating_event ?__ke } AS ?is_mie)
+  BIND(EXISTS { ?aop aopo:has_adverse_outcome ?__ke } AS ?is_ao)
+}

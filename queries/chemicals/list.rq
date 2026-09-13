@@ -1,0 +1,19 @@
+# summary: Page of chemicals matching the filters, ordered by name
+# param: limit int
+# param: offset int
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?chemical ?sort_title
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?chemical a cheminf:000000 ;
+    dc:title ?sort_title .
+  # include: chemicals/_filters
+}
+ORDER BY LCASE(STR(?sort_title)) ?chemical
+LIMIT ?__limit
+OFFSET ?__offset

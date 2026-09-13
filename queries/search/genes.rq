@@ -1,0 +1,10 @@
+# summary: Symbols of all genes linked to a Key Event or KER
+PREFIX edam: <http://edamontology.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT DISTINCT ?entity ?text ?kind
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?linked edam:data_1025 ?entity .
+  ?entity rdfs:label ?text .
+  BIND("title" AS ?kind)
+}

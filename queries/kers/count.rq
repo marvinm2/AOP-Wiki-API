@@ -1,0 +1,9 @@
+# summary: Number of Key Event Relationships matching the filters
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX edam: <http://edamontology.org/>
+SELECT (COUNT(DISTINCT ?ker) AS ?total)
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?ker a aopo:KeyEventRelationship .
+  # include: kers/_filters
+}

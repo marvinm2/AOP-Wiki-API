@@ -1,0 +1,23 @@
+# summary: List fields for a set of KERs, with the titles of their Key Events and their AOPs
+# param: kers iri_list
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?ker ?field ?value ?title
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?ker { ?__kers }
+  {
+    ?ker aopo:has_upstream_key_event ?value .
+    BIND("up" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+  UNION {
+    ?ker aopo:has_downstream_key_event ?value .
+    BIND("down" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+  UNION { ?ker dcterms:created ?value . BIND("created" AS ?field) }
+  UNION { ?ker dcterms:modified ?value . BIND("modified" AS ?field) }
+  UNION { ?value aopo:has_key_event_relationship ?ker . BIND("aop" AS ?field) }
+}

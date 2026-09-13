@@ -1,0 +1,5 @@
+
+{ "head": { "link": [], "vars": ["KE", "KEname", "AOP", "AOPname", "MIE", "MIEname"] },
+  "results": { "distinct": false, "ordered": true, "bindings": [
+    { "KEname": { "type": "literal", "value": "N/A, Liver Steatosis" }	, "AOP": { "type": "uri", "value": "https://identifiers.org/aop/34" }	, "AOPname": { "type": "literal", "value": "LXR activation leading to hepatic steatosis" }	, "MIE": { "type": "uri", "value": "https://identifiers.org/aop.events/167" }	, "MIEname": { "type": "literal", "value": "Activation, LXR" }},
+    { "KEname": { "type": "literal", "value": "N/A, Liver Steatosis" }	, "AOP": { "type": "uri", "value": "https://identifiers.org/aop/34" }	, "AOPname": { "type": "literal", "value": "LXR activation leading to hepatic steatosis" }	, "MIE": { "type": "uri", "value": "https://identifiers.org/aop.events/228" }	, "MIEname": { "type": "literal", "value": "peroxisome proliferator activated receptor promoter demethylation" }} ] } }

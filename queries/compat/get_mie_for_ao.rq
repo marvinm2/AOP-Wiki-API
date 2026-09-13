@@ -1,0 +1,17 @@
+# summary: grlc get-mie-for-ao: molecular initiating events of the AOPs leading to an adverse outcome
+# (fixed: ?KE is now bound to the adverse outcome; it was always empty)
+# param: ao iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+SELECT ?KE ?KEname ?AOP ?AOPname ?MIE ?MIEname
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?KE { ?__ao }
+  ?KE a aopo:KeyEvent ;
+    dc:title ?KEname .
+  ?AOP a aopo:AdverseOutcomePathway ;
+    dc:title ?AOPname ;
+    aopo:has_adverse_outcome ?KE ;
+    aopo:has_molecular_initiating_event ?MIE .
+  ?MIE dc:title ?MIEname .
+}

@@ -1,0 +1,45 @@
+# param: q literal optional
+# param: level literal optional
+# param: aop iri optional
+# param: taxon iri optional
+# param: organ iri optional
+# param: cell_type iri optional
+# param: gene iri optional
+# flag: role_mie
+# flag: role_ao
+# flag: role_ke
+  # if: q
+  ?ke dc:title|dcterms:alternative ?filter_text .
+  FILTER(CONTAINS(LCASE(STR(?filter_text)), ?__q))
+  # endif
+  # if: level
+  ?ke nci:C25664 ?__level .
+  # endif
+  # if: aop
+  ?__aop aopo:has_key_event ?ke .
+  # endif
+  # if: taxon
+  ?ke ncbitaxon:131567 ?__taxon .
+  # endif
+  # if: organ
+  ?ke aopo:OrganContext ?__organ .
+  # endif
+  # if: cell_type
+  ?ke aopo:CellTypeContext ?__cell_type .
+  # endif
+  # if: gene
+  ?ke edam:data_1025 ?__gene .
+  # endif
+  # if: role_mie
+  FILTER EXISTS { ?filter_mie_aop aopo:has_molecular_initiating_event ?ke }
+  # endif
+  # if: role_ao
+  FILTER EXISTS { ?filter_ao_aop aopo:has_adverse_outcome ?ke }
+  # endif
+  # if: role_ke
+  FILTER EXISTS {
+    ?filter_ke_aop aopo:has_key_event ?ke .
+    FILTER NOT EXISTS { ?filter_ke_aop aopo:has_molecular_initiating_event ?ke }
+    FILTER NOT EXISTS { ?filter_ke_aop aopo:has_adverse_outcome ?ke }
+  }
+  # endif

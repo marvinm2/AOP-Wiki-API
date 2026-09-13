@@ -1,0 +1,13 @@
+# summary: AOPs with a stressor containing the chemical, with their MIEs
+# param: chemical iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT DISTINCT ?aop ?title ?stressor ?mie
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?stressor aopo:has_chemical_entity ?__chemical .
+  ?aop nci:C54571 ?stressor .
+  OPTIONAL { ?aop dc:title ?title }
+  OPTIONAL { ?aop aopo:has_molecular_initiating_event ?mie }
+}

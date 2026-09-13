@@ -1,0 +1,24 @@
+# summary: grlc get-chemicals-from-any-key-event: stressor chemicals of the AOPs containing a Key Event
+# (fixed: the original required stressors to be part of the MIE, which never holds, so it returned
+# nothing; stressors are linked to AOPs)
+# param: ke iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT ?KEname ?AOP ?MIE ?MIEname ?stressor ?chemical ?Chemname
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?KE { ?__ke }
+  ?KE a aopo:KeyEvent ;
+    dc:title ?KEname .
+  ?AOP a aopo:AdverseOutcomePathway ;
+    aopo:has_key_event ?KE ;
+    aopo:has_molecular_initiating_event ?MIE ;
+    nci:C54571 ?stressor .
+  ?MIE dc:title ?MIEname .
+  ?stressor aopo:has_chemical_entity ?chemical .
+  ?chemical a cheminf:000000 ;
+    dc:title ?Chemname .
+}
+ORDER BY ASC(?AOP)

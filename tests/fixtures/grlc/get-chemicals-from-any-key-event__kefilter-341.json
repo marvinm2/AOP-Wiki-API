@@ -1,0 +1,3 @@
+
+{ "head": { "link": [], "vars": ["KEname", "AOP", "MIE", "MIEname", "stressor", "chemical", "Chemname"] },
+  "results": { "distinct": false, "ordered": true, "bindings": [ ] } }

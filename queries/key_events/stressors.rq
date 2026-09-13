@@ -1,0 +1,12 @@
+# summary: Stressors of the AOPs that contain a Key Event
+# param: ke iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT DISTINCT ?stressor ?title ?aop
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?aop aopo:has_key_event ?__ke ;
+    nci:C54571 ?stressor .
+  OPTIONAL { ?stressor dc:title ?title }
+}

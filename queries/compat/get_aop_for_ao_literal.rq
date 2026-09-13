@@ -1,0 +1,15 @@
+# summary: grlc get-aop-for-ao (literal): AOPs whose adverse outcome name contains the text
+# (fixed: the original filtered on a variable that was never bound, so it always returned nothing)
+# param: text literal
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+SELECT ?KE ?KEname ?AOP ?AOPname
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?KE a aopo:KeyEvent ;
+    dc:title ?KEname .
+  ?AOP a aopo:AdverseOutcomePathway ;
+    dc:title ?AOPname ;
+    aopo:has_adverse_outcome ?KE .
+  FILTER(CONTAINS(LCASE(STR(?KEname)), ?__text))
+}

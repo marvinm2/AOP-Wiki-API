@@ -1,0 +1,15 @@
+# summary: List fields for a set of chemicals
+# param: chemicals iri_list
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+SELECT ?chemical ?field ?value
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?chemical { ?__chemicals }
+  { ?chemical dc:title ?value . BIND("title" AS ?field) }
+  UNION { ?chemical cheminf:000446 ?value . BIND("cas" AS ?field) }
+  UNION { ?chemical cheminf:000059 ?value . BIND("inchikey" AS ?field) }
+  UNION { ?chemical cheminf:000568 ?value . BIND("comptox" AS ?field) }
+  UNION { ?value aopo:has_chemical_entity ?chemical . BIND("stressor" AS ?field) }
+}

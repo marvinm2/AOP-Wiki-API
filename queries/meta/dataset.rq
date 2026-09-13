@@ -1,0 +1,10 @@
+# summary: Descriptive VoID properties of the dataset (title, licence, endpoint, dumps)
+# param: dataset iri
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX void: <http://rdfs.org/ns/void#>
+SELECT ?p ?o
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?p { dcterms:title dcterms:license void:sparqlEndpoint void:dataDump }
+  ?__dataset ?p ?o .
+}

@@ -1,0 +1,58 @@
+# summary: All fields of one AOP, one (field, value) row per value, with titles of linked entities
+# param: aop iri
+# flag: evidence
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX edam: <http://edamontology.org/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX ncbitaxon: <http://purl.bioontology.org/ontology/NCBITAXON/>
+PREFIX pato: <http://purl.obolibrary.org/obo/PATO_>
+SELECT ?field ?value ?title ?level ?up ?down
+FROM <urn:aopwiki:graph>
+WHERE {
+  { ?__aop a ?value . BIND("type" AS ?field) }
+  UNION { ?__aop dc:title ?value . BIND("title" AS ?field) }
+  UNION { ?__aop dcterms:alternative ?value . BIND("short_name" AS ?field) }
+  UNION { ?__aop nci:C25688 ?value . BIND("oecd_status" AS ?field) }
+  UNION { ?__aop dcterms:created ?value . BIND("created" AS ?field) }
+  UNION { ?__aop dcterms:modified ?value . BIND("modified" AS ?field) }
+  UNION { ?__aop dcterms:abstract ?value . BIND("abstract" AS ?field) }
+  UNION { ?__aop dc:description ?value . BIND("description" AS ?field) }
+  UNION { ?__aop dc:creator ?value . BIND("creator" AS ?field) }
+  UNION { ?__aop dcterms:license ?value . BIND("license" AS ?field) }
+  UNION { ?__aop pato:0000047 ?value . BIND("sex" AS ?field) }
+  UNION { ?__aop aopo:LifeStageContext ?value . BIND("life_stage" AS ?field) }
+  UNION {
+    ?__aop ncbitaxon:131567 ?value .
+    BIND("taxon" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+  UNION {
+    ?__aop aopo:has_key_event ?value .
+    BIND("key_event" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+    OPTIONAL { ?value nci:C25664 ?level }
+  }
+  UNION { ?__aop aopo:has_molecular_initiating_event ?value . BIND("mie" AS ?field) }
+  UNION { ?__aop aopo:has_adverse_outcome ?value . BIND("ao" AS ?field) }
+  UNION {
+    ?__aop aopo:has_key_event_relationship ?value .
+    BIND("ker" AS ?field)
+    OPTIONAL { ?value aopo:has_upstream_key_event ?up }
+    OPTIONAL { ?value aopo:has_downstream_key_event ?down }
+  }
+  UNION {
+    ?__aop nci:C54571 ?value .
+    BIND("stressor" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+  # if: evidence
+  UNION { ?__aop nci:C48192 ?value . BIND("essentiality" AS ?field) }
+  UNION { ?__aop nci:C25217 ?value . BIND("overall_assessment" AS ?field) }
+  UNION { ?__aop aopo:has_evidence ?value . BIND("evidence_summary" AS ?field) }
+  UNION { ?__aop edam:operation_3799 ?value . BIND("quantitative_understanding" AS ?field) }
+  UNION { ?__aop nci:C25725 ?value . BIND("potential_applications" AS ?field) }
+  UNION { ?__aop aopo:AopContext ?value . BIND("context" AS ?field) }
+  # endif
+}

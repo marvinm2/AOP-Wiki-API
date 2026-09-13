@@ -1,0 +1,4 @@
+
+{ "head": { "link": [], "vars": ["ChEBI", "ChemicalName", "AOPwebpage", "AdverseOutcomePathwayName"] },
+  "results": { "distinct": false, "ordered": true, "bindings": [
+    { "ChEBI": { "type": "literal", "value": "16605" }	, "ChemicalName": { "type": "literal", "value": "Allyl alcohol" }	, "AOPwebpage": { "type": "uri", "value": "https://identifiers.org/aop/38" }	, "AdverseOutcomePathwayName": { "type": "literal", "value": "Protein Alkylation leading to Liver Fibrosis" }} ] } }

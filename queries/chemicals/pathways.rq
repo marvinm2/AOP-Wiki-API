@@ -1,0 +1,26 @@
+# summary: WikiPathways pathways containing the chemical, matched on ChEBI (federated query)
+# param: chemical iri
+# Uses a GRAPH block instead of FROM: Virtuoso applies a FROM clause inside SERVICE as well,
+# which makes the remote pattern match nothing.
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
+SELECT DISTINCT ?chebi ?pathway ?wp_id ?wp_title ?organism
+WHERE {
+  GRAPH <urn:aopwiki:graph> {
+    ?__chemical skos:exactMatch ?chebi_xref .
+    ?chebi_xref a cheminf:000407 .
+  }
+  BIND(IRI(CONCAT("https://identifiers.org/chebi/CHEBI:", STRAFTER(STR(?chebi_xref), "/chebi/")))
+    AS ?chebi)
+  SERVICE <https://sparql.wikipathways.org/sparql> {
+    ?metabolite wp:bdbChEBI ?chebi ;
+      dcterms:isPartOf ?pathway .
+    ?pathway a wp:Pathway ;
+      dcterms:identifier ?wp_id ;
+      dc:title ?wp_title .
+    OPTIONAL { ?pathway wp:organismName ?organism }
+  }
+}

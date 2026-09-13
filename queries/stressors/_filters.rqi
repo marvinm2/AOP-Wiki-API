@@ -1,0 +1,17 @@
+# param: q literal optional
+# param: aop iri optional
+# param: chemical iri optional
+# flag: has_chemical
+  # if: q
+  ?stressor dc:title ?filter_title .
+  FILTER(CONTAINS(LCASE(STR(?filter_title)), ?__q))
+  # endif
+  # if: aop
+  ?__aop nci:C54571 ?stressor .
+  # endif
+  # if: chemical
+  ?stressor aopo:has_chemical_entity ?__chemical .
+  # endif
+  # if: has_chemical
+  FILTER EXISTS { ?stressor aopo:has_chemical_entity ?filter_chemical }
+  # endif

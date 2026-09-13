@@ -1,0 +1,16 @@
+# summary: List fields for a set of stressors, including their chemicals and AOPs
+# param: stressors iri_list
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT ?stressor ?field ?value
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?stressor { ?__stressors }
+  { ?stressor dc:title ?value . BIND("title" AS ?field) }
+  UNION { ?stressor dcterms:created ?value . BIND("created" AS ?field) }
+  UNION { ?stressor dcterms:modified ?value . BIND("modified" AS ?field) }
+  UNION { ?stressor aopo:has_chemical_entity ?value . BIND("chemical" AS ?field) }
+  UNION { ?value nci:C54571 ?stressor . BIND("aop" AS ?field) }
+}

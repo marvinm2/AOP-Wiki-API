@@ -1,0 +1,58 @@
+# summary: One KER with weight-of-evidence and quantitative understanding texts, applicability, genes and AOPs
+# param: ker iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX aopwiki: <https://aopwiki.rdf.bigcat-bioinformatics.org/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX edam: <http://edamontology.org/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX ncbitaxon: <http://purl.bioontology.org/ontology/NCBITAXON/>
+PREFIX pato: <http://purl.obolibrary.org/obo/PATO_>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?field ?value ?title ?ner ?regex
+FROM <urn:aopwiki:graph>
+WHERE {
+  { ?__ker a ?value . BIND("type" AS ?field) }
+  UNION {
+    ?__ker aopo:has_upstream_key_event ?value .
+    BIND("up" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+  UNION {
+    ?__ker aopo:has_downstream_key_event ?value .
+    BIND("down" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+  UNION { ?__ker dcterms:created ?value . BIND("created" AS ?field) }
+  UNION { ?__ker dcterms:modified ?value . BIND("modified" AS ?field) }
+  UNION { ?__ker dc:description ?value . BIND("description" AS ?field) }
+  UNION { ?__ker nci:C80263 ?value . BIND("biological_plausibility" AS ?field) }
+  UNION { ?__ker edam:data_2042 ?value . BIND("empirical_support" AS ?field) }
+  UNION { ?__ker nci:C71478 ?value . BIND("uncertainties" AS ?field) }
+  UNION { ?__ker nci:C103159 ?value . BIND("evidence_collection_strategy" AS ?field) }
+  UNION { ?__ker nci:C68821 ?value . BIND("known_modulating_factors" AS ?field) }
+  UNION { ?__ker nci:C17469 ?value . BIND("applicability" AS ?field) }
+  UNION { ?__ker edam:operation_3799 ?value . BIND("quantitative_understanding" AS ?field) }
+  UNION { ?__ker edam:operation_3438 ?value . BIND("response_response_relationship" AS ?field) }
+  UNION { ?__ker nci:C25207 ?value . BIND("time_scale" AS ?field) }
+  UNION { ?__ker nci:C25343 ?value . BIND("feedback_loops" AS ?field) }
+  UNION { ?__ker pato:0000047 ?value . BIND("sex" AS ?field) }
+  UNION { ?__ker aopo:LifeStageContext ?value . BIND("life_stage" AS ?field) }
+  UNION {
+    ?__ker ncbitaxon:131567 ?value .
+    BIND("taxon" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+  UNION {
+    ?value aopo:has_key_event_relationship ?__ker .
+    BIND("aop" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+  UNION {
+    ?__ker edam:data_1025 ?value .
+    BIND("gene" AS ?field)
+    OPTIONAL { ?value rdfs:label ?title }
+    BIND(EXISTS { ?__ker aopwiki:geneDetectedByNER ?value } AS ?ner)
+    BIND(EXISTS { ?__ker aopwiki:geneDetectedByRegex ?value } AS ?regex)
+  }
+}

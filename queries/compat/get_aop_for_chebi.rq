@@ -1,0 +1,22 @@
+# summary: grlc get-aop-for-chebi: AOPs with a stressor chemical mapped to the ChEBI id
+# (fixed: exact id match instead of a substring regex, so 1660 no longer matches 16605)
+# param: chebi literal
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?ChEBI ?ChemicalName ?AOPwebpage ?AdverseOutcomePathwayName
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?matchID cheminf:000407 ?ChEBI .
+  FILTER(STR(?ChEBI) = ?__chebi)
+  ?CAS skos:exactMatch ?matchID ;
+    dc:title ?ChemicalName ;
+    dcterms:isPartOf ?Stressor .
+  ?Stressor a nci:C54571 ;
+    dcterms:isPartOf ?AOPwebpage .
+  ?AOPwebpage a aopo:AdverseOutcomePathway ;
+    dc:title ?AdverseOutcomePathwayName .
+}

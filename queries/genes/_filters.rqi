@@ -1,0 +1,23 @@
+# param: q literal optional
+# param: aop iri optional
+# param: ke iri optional
+# flag: method_ner
+# flag: method_regex
+  ?entity edam:data_1025 ?gene .
+  FILTER(isIRI(?gene))
+  # if: method_ner
+  ?entity aopwiki:geneDetectedByNER ?gene .
+  # endif
+  # if: method_regex
+  ?entity aopwiki:geneDetectedByRegex ?gene .
+  # endif
+  # if: q
+  ?gene rdfs:label ?filter_symbol .
+  FILTER(STRSTARTS(LCASE(STR(?filter_symbol)), ?__q))
+  # endif
+  # if: aop
+  { ?__aop aopo:has_key_event ?entity } UNION { ?__aop aopo:has_key_event_relationship ?entity }
+  # endif
+  # if: ke
+  FILTER(?entity = ?__ke)
+  # endif

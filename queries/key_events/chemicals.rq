@@ -1,0 +1,15 @@
+# summary: Chemicals of the stressors of the AOPs that contain a Key Event
+# param: ke iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT DISTINCT ?chemical ?cas ?title ?stressor ?aop
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?aop aopo:has_key_event ?__ke ;
+    nci:C54571 ?stressor .
+  ?stressor aopo:has_chemical_entity ?chemical .
+  OPTIONAL { ?chemical cheminf:000446 ?cas }
+  OPTIONAL { ?chemical dc:title ?title }
+}

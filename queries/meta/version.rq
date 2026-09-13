@@ -1,0 +1,11 @@
+# summary: Release version token of the loaded dataset (VoID pav:version / pav:createdWith)
+# param: dataset iri
+PREFIX pav: <http://purl.org/pav/>
+SELECT ?version ?created ?commit
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?__dataset pav:version ?version .
+  OPTIONAL { ?__dataset pav:createdOn ?created }
+  OPTIONAL { ?__dataset pav:createdWith ?commit }
+}
+LIMIT 1

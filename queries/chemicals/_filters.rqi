@@ -1,0 +1,23 @@
+# param: q literal optional
+# param: aop iri optional
+# param: stressor iri optional
+# param: inchikey iri optional
+# param: xrefs iri_list optional
+  # if: q
+  ?chemical dc:title|dcterms:alternative ?filter_text .
+  FILTER(CONTAINS(LCASE(STR(?filter_text)), ?__q))
+  # endif
+  # if: aop
+  ?__aop nci:C54571 ?filter_aop_stressor .
+  ?filter_aop_stressor aopo:has_chemical_entity ?chemical .
+  # endif
+  # if: stressor
+  ?__stressor aopo:has_chemical_entity ?chemical .
+  # endif
+  # if: inchikey
+  ?chemical cheminf:000059 ?__inchikey .
+  # endif
+  # if: xrefs
+  VALUES ?filter_xref { ?__xrefs }
+  ?chemical skos:exactMatch ?filter_xref .
+  # endif

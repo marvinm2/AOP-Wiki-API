@@ -1,0 +1,11 @@
+# summary: grlc get-all-aops: all AOPs with title and label
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?AOP ?AOPTitle ?AOPID
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?AOP a aopo:AdverseOutcomePathway ;
+    dc:title ?AOPTitle ;
+    rdfs:label ?AOPID .
+}

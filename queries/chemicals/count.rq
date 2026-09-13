@@ -1,0 +1,13 @@
+# summary: Number of chemicals matching the filters
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT (COUNT(DISTINCT ?chemical) AS ?total)
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?chemical a cheminf:000000 .
+  # include: chemicals/_filters
+}

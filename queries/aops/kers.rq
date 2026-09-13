@@ -1,0 +1,13 @@
+# summary: Key Event Relationships of one AOP with upstream and downstream Key Events
+# param: aop iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+SELECT ?ker ?up ?up_title ?down ?down_title
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?__aop aopo:has_key_event_relationship ?ker .
+  ?ker aopo:has_upstream_key_event ?up ;
+    aopo:has_downstream_key_event ?down .
+  OPTIONAL { ?up dc:title ?up_title }
+  OPTIONAL { ?down dc:title ?down_title }
+}

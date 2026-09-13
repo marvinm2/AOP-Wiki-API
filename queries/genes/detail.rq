@@ -1,0 +1,39 @@
+# summary: One HGNC gene with cross-references and the Key Events, KERs and AOPs it is linked to
+# param: gene iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX aopwiki: <https://aopwiki.rdf.bigcat-bioinformatics.org/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX edam: <http://edamontology.org/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?field ?value ?title ?up ?down ?ner ?regex
+FROM <urn:aopwiki:graph>
+WHERE {
+  { ?__gene a ?value . BIND("type" AS ?field) }
+  UNION { ?__gene rdfs:label ?value . BIND("symbol" AS ?field) }
+  UNION { ?__gene owl:sameAs ?value . BIND("xref" AS ?field) }
+  UNION {
+    ?value edam:data_1025 ?__gene ;
+      a aopo:KeyEvent .
+    BIND("key_event" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+    BIND(EXISTS { ?value aopwiki:geneDetectedByNER ?__gene } AS ?ner)
+    BIND(EXISTS { ?value aopwiki:geneDetectedByRegex ?__gene } AS ?regex)
+  }
+  UNION {
+    ?value edam:data_1025 ?__gene ;
+      a aopo:KeyEventRelationship .
+    BIND("ker" AS ?field)
+    OPTIONAL { ?value aopo:has_upstream_key_event ?up }
+    OPTIONAL { ?value aopo:has_downstream_key_event ?down }
+    BIND(EXISTS { ?value aopwiki:geneDetectedByNER ?__gene } AS ?ner)
+    BIND(EXISTS { ?value aopwiki:geneDetectedByRegex ?__gene } AS ?regex)
+  }
+  UNION {
+    { ?link_ke edam:data_1025 ?__gene . ?value aopo:has_key_event ?link_ke }
+    UNION
+    { ?link_ker edam:data_1025 ?__gene . ?value aopo:has_key_event_relationship ?link_ker }
+    BIND("aop" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+}

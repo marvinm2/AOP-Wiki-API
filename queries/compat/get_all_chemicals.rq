@@ -1,0 +1,10 @@
+# summary: grlc get-all-chemicals: all chemicals with CAS number and name
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+SELECT ?CAS ?ChemicalName
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?chemical a cheminf:000000 ;
+    dc:title ?ChemicalName ;
+    cheminf:000446 ?CAS .
+}

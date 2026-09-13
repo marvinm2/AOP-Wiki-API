@@ -1,0 +1,10 @@
+# summary: Number of stressors matching the filters
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT (COUNT(DISTINCT ?stressor) AS ?total)
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?stressor a nci:C54571 .
+  # include: stressors/_filters
+}

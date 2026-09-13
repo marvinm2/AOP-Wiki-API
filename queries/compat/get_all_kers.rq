@@ -1,0 +1,16 @@
+# summary: grlc get-all-kers: all KERs with upstream and downstream Key Events
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?KERID ?KEupTitle ?KEupID ?KEdownTitle ?KEdownID
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?KER a aopo:KeyEventRelationship ;
+    aopo:has_upstream_key_event ?KEup ;
+    aopo:has_downstream_key_event ?KEdown ;
+    rdfs:label ?KERID .
+  ?KEup dc:title ?KEupTitle ;
+    rdfs:label ?KEupID .
+  ?KEdown dc:title ?KEdownTitle ;
+    rdfs:label ?KEdownID .
+}

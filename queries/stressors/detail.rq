@@ -1,0 +1,28 @@
+# summary: One stressor with its description, chemicals and AOPs
+# param: stressor iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT ?field ?value ?title ?cas ?inchikey
+FROM <urn:aopwiki:graph>
+WHERE {
+  { ?__stressor a ?value . BIND("type" AS ?field) }
+  UNION { ?__stressor dc:title ?value . BIND("title" AS ?field) }
+  UNION { ?__stressor dc:description ?value . BIND("description" AS ?field) }
+  UNION { ?__stressor dcterms:created ?value . BIND("created" AS ?field) }
+  UNION { ?__stressor dcterms:modified ?value . BIND("modified" AS ?field) }
+  UNION {
+    ?__stressor aopo:has_chemical_entity ?value .
+    BIND("chemical" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+    OPTIONAL { ?value cheminf:000446 ?cas }
+    OPTIONAL { ?value cheminf:000059 ?inchikey }
+  }
+  UNION {
+    ?value nci:C54571 ?__stressor .
+    BIND("aop" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+}

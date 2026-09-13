@@ -1,0 +1,30 @@
+# summary: One chemical with synonyms, external identifiers, stressors and AOPs
+# param: chemical iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?field ?value ?title
+FROM <urn:aopwiki:graph>
+WHERE {
+  { ?__chemical a ?value . BIND("type" AS ?field) }
+  UNION { ?__chemical dc:title ?value . BIND("title" AS ?field) }
+  UNION { ?__chemical cheminf:000446 ?value . BIND("cas" AS ?field) }
+  UNION { ?__chemical cheminf:000059 ?value . BIND("inchikey" AS ?field) }
+  UNION { ?__chemical cheminf:000568 ?value . BIND("comptox" AS ?field) }
+  UNION { ?__chemical dcterms:alternative ?value . BIND("synonym" AS ?field) }
+  UNION { ?__chemical skos:exactMatch ?value . BIND("xref" AS ?field) }
+  UNION {
+    ?value aopo:has_chemical_entity ?__chemical .
+    BIND("stressor" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+  UNION {
+    ?link_stressor aopo:has_chemical_entity ?__chemical .
+    ?value nci:C54571 ?link_stressor .
+    BIND("aop" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+}

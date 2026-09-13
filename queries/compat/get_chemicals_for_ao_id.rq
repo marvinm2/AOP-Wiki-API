@@ -1,0 +1,18 @@
+# summary: grlc get-chemicals-for-ao (id): CAS numbers of stressor chemicals of AOPs ending in an AO
+# param: ao iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT DISTINCT ?AOname ?CASID
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?AO { ?__ao }
+  ?AO a aopo:KeyEvent ;
+    dc:title ?AOname .
+  ?AOP a aopo:AdverseOutcomePathway ;
+    aopo:has_adverse_outcome ?AO ;
+    nci:C54571 ?Stressor .
+  ?Stressor aopo:has_chemical_entity ?Chemical .
+  ?Chemical cheminf:000446 ?CASID .
+}

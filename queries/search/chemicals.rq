@@ -1,0 +1,13 @@
+# summary: Searchable texts of all chemicals: one row per chemical, synonyms joined by "|||"
+# Name plus synonyms as separate rows exceed the endpoint's 10,000-row result cap.
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?entity (SAMPLE(?title) AS ?text) (GROUP_CONCAT(DISTINCT ?alias; separator="|||") AS ?aliases)
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?entity a cheminf:000000 ;
+    dc:title ?title .
+  OPTIONAL { ?entity dcterms:alternative ?alias }
+}
+GROUP BY ?entity

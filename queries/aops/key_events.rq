@@ -1,0 +1,14 @@
+# summary: Key Events of one AOP with their level and role (MIE / AO) in that AOP
+# param: aop iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT ?ke ?title ?level ?mie ?ao
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?__aop aopo:has_key_event ?ke .
+  OPTIONAL { ?ke dc:title ?title }
+  OPTIONAL { ?ke nci:C25664 ?level }
+  BIND(EXISTS { ?__aop aopo:has_molecular_initiating_event ?ke } AS ?mie)
+  BIND(EXISTS { ?__aop aopo:has_adverse_outcome ?ke } AS ?ao)
+}

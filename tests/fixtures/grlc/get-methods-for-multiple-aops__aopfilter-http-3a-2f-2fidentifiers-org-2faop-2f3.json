@@ -1,0 +1,27 @@
+Virtuoso 37000 Error SP031: SPARQL compiler: IRI() built-in function can not use boolean expression as an argument
+
+SPARQL query:
+define sql:big-data-const 0
+#+ summary: Get methods for all Key Events of an Adverse Outcome Pathway. For the variable of aopfilter, fill the complete URI for the AOP. This consists of "http://identifiers.org/aop/" + the AOP ID of interest. In this example, this was AOP 3. Therefore, the variable aopfilter is filled with "http://identifiers.org/aop/3".
+#+ endpoint_in_url: False
+#+ tags:
+#+   - Methods
+
+prefix dcterms: <http://purl.org/dc/terms/>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix aop: <http://identifiers.org/aop/>
+prefix aopo: <http://aopkb.org/aop_ontology#>
+prefix mmo: <http://purl.obolibrary.org/obo/MMO_>
+prefix apf: <http://jena.apache.org/ARQ/property#>
+
+select  ?AopLabel ?KeLookUp ?AssayText
+where {
+ BIND( iri(?id_str) as ?aopid) .
+ ?id_str apf:strSplit ("http://identifiers.org/aop/3"@string ",") .
+ ?aopid a aopo:AdverseOutcomePathway ;
+ rdfs:label ?AopLabel . 
+ ?KeLook a aopo:KeyEvent ;
+ rdfs:label ?KeLookUp ;
+ dcterms:isPartOf  ?aopid; 
+ mmo:0000000 ?AssayText .
+}

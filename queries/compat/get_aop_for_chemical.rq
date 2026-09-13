@@ -1,0 +1,26 @@
+# summary: grlc get-aop-for-chemical: AOPs (with their MIE) for a chemical CAS number
+# (fixed: exact CAS match; AOPs without an MIE are no longer dropped)
+# param: chemical iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT ?CAS ?ChemicalName ?AOPwebpage ?AdverseOutcomePathwayName ?MIEwebpage
+  ?MolecularInitiatingEventName
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?Chemical { ?__chemical }
+  ?Chemical a cheminf:000000 ;
+    dc:title ?ChemicalName ;
+    cheminf:000446 ?CAS ;
+    dcterms:isPartOf ?Stressor .
+  ?Stressor a nci:C54571 ;
+    dcterms:isPartOf ?AOPwebpage .
+  ?AOPwebpage a aopo:AdverseOutcomePathway ;
+    dc:title ?AdverseOutcomePathwayName .
+  OPTIONAL {
+    ?AOPwebpage aopo:has_molecular_initiating_event ?MIEwebpage .
+    ?MIEwebpage dc:title ?MolecularInitiatingEventName .
+  }
+}

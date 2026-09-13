@@ -1,0 +1,11 @@
+# summary: Searchable texts of all Key Events (title and short name)
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?entity ?text ?kind
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?entity a aopo:KeyEvent .
+  { ?entity dc:title ?text . BIND("title" AS ?kind) }
+  UNION { ?entity dcterms:alternative ?text . BIND("alias" AS ?kind) }
+}

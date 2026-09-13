@@ -1,0 +1,12 @@
+# summary: HGNC gene IRI for a gene symbol (pass the symbol in lower case)
+# param: symbol literal
+PREFIX edam: <http://edamontology.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?gene
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?gene a edam:data_2298 ;
+    rdfs:label ?label .
+  FILTER(LCASE(STR(?label)) = ?__symbol)
+}
+LIMIT 1

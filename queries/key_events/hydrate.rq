@@ -1,0 +1,17 @@
+# summary: List fields for a set of Key Events, including the AOPs they occur in and their roles
+# param: kes iri_list
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT ?ke ?field ?value
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?ke { ?__kes }
+  { ?ke dc:title ?value . BIND("title" AS ?field) }
+  UNION { ?ke dcterms:alternative ?value . BIND("short_name" AS ?field) }
+  UNION { ?ke nci:C25664 ?value . BIND("level" AS ?field) }
+  UNION { ?value aopo:has_key_event ?ke . BIND("aop" AS ?field) }
+  UNION { ?value aopo:has_molecular_initiating_event ?ke . BIND("mie_of" AS ?field) }
+  UNION { ?value aopo:has_adverse_outcome ?ke . BIND("ao_of" AS ?field) }
+}

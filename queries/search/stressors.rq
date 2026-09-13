@@ -1,0 +1,10 @@
+# summary: Searchable texts of all stressors (name)
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT ?entity ?text ?kind
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?entity a nci:C54571 ;
+    dc:title ?text .
+  BIND("title" AS ?kind)
+}

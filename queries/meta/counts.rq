@@ -1,0 +1,27 @@
+# summary: Number of AOPs, Key Events, KERs, stressors, chemicals, and genes linked to KEs/KERs
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX edam: <http://edamontology.org/>
+SELECT ?type ?n
+FROM <urn:aopwiki:graph>
+WHERE {
+  {
+    SELECT ?type (COUNT(DISTINCT ?s) AS ?n)
+    WHERE {
+      VALUES ?type {
+        aopo:AdverseOutcomePathway aopo:KeyEvent aopo:KeyEventRelationship nci:C54571 cheminf:000000
+      }
+      ?s a ?type .
+    }
+    GROUP BY ?type
+  }
+  UNION
+  {
+    SELECT ("genes" AS ?type) (COUNT(DISTINCT ?gene) AS ?n)
+    WHERE {
+      ?entity edam:data_1025 ?gene .
+      FILTER(isIRI(?gene))
+    }
+  }
+}

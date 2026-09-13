@@ -1,0 +1,4 @@
+
+{ "head": { "link": [], "vars": ["CAS", "ChemicalName", "AOPwebpage", "AdverseOutcomePathwayName", "MIEwebpage", "MolecularInitiatingEventName"] },
+  "results": { "distinct": false, "ordered": true, "bindings": [
+    { "CAS": { "type": "literal", "value": "107-18-6" }	, "ChemicalName": { "type": "literal", "value": "Allyl alcohol" }	, "AOPwebpage": { "type": "uri", "value": "https://identifiers.org/aop/38" }	, "AdverseOutcomePathwayName": { "type": "literal", "value": "Protein Alkylation leading to Liver Fibrosis" }	, "MIEwebpage": { "type": "uri", "value": "https://identifiers.org/aop.events/244" }	, "MolecularInitiatingEventName": { "type": "literal", "value": "Alkylation, Protein" }} ] } }

@@ -1,0 +1,16 @@
+# summary: Molecular initiating events of the AOPs that contain a Key Event (optionally only as AO)
+# param: ke iri
+# flag: as_ao
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+SELECT DISTINCT ?aop ?aop_title ?target ?target_title
+FROM <urn:aopwiki:graph>
+WHERE {
+  # if: as_ao
+  ?aop aopo:has_adverse_outcome ?__ke .
+  # endif
+  ?aop aopo:has_key_event ?__ke ;
+    aopo:has_molecular_initiating_event ?target .
+  OPTIONAL { ?aop dc:title ?aop_title }
+  OPTIONAL { ?target dc:title ?target_title }
+}

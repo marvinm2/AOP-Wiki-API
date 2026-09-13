@@ -1,0 +1,15 @@
+# summary: Key Events of the AOPs with a stressor containing the chemical, with roles per AOP
+# param: chemical iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT DISTINCT ?ke ?title ?aop ?is_mie ?is_ao
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?stressor aopo:has_chemical_entity ?__chemical .
+  ?aop nci:C54571 ?stressor ;
+    aopo:has_key_event ?ke .
+  OPTIONAL { ?ke dc:title ?title }
+  BIND(EXISTS { ?aop aopo:has_molecular_initiating_event ?ke } AS ?is_mie)
+  BIND(EXISTS { ?aop aopo:has_adverse_outcome ?ke } AS ?is_ao)
+}

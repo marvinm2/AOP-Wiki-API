@@ -1,0 +1,39 @@
+# param: q literal optional
+# param: status literal optional
+# param: taxon iri optional
+# param: ke iri optional
+# param: mie iri optional
+# param: ao iri optional
+# param: stressor iri optional
+# param: chemical iri optional
+# param: modified_since literal optional
+  # if: q
+  ?aop dc:title|dcterms:alternative ?filter_text .
+  FILTER(CONTAINS(LCASE(STR(?filter_text)), ?__q))
+  # endif
+  # if: status
+  ?aop nci:C25688 ?__status .
+  # endif
+  # if: taxon
+  ?aop ncbitaxon:131567 ?__taxon .
+  # endif
+  # if: ke
+  ?aop aopo:has_key_event ?__ke .
+  # endif
+  # if: mie
+  ?aop aopo:has_molecular_initiating_event ?__mie .
+  # endif
+  # if: ao
+  ?aop aopo:has_adverse_outcome ?__ao .
+  # endif
+  # if: stressor
+  ?aop nci:C54571 ?__stressor .
+  # endif
+  # if: chemical
+  ?aop nci:C54571 ?filter_stressor .
+  ?filter_stressor aopo:has_chemical_entity ?__chemical .
+  # endif
+  # if: modified_since
+  ?aop dcterms:modified ?filter_modified .
+  FILTER(STR(?filter_modified) >= ?__modified_since)
+  # endif

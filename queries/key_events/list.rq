@@ -1,0 +1,19 @@
+# summary: Page of Key Events matching the filters, ordered by KE number
+# param: limit int
+# param: offset int
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX edam: <http://edamontology.org/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX ncbitaxon: <http://purl.bioontology.org/ontology/NCBITAXON/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT DISTINCT ?ke (xsd:integer(STRAFTER(STR(?ke), "/aop.events/")) AS ?number)
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?ke a aopo:KeyEvent .
+  # include: key_events/_filters
+}
+ORDER BY ?number
+LIMIT ?__limit
+OFFSET ?__offset

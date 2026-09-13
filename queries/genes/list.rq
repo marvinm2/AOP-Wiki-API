@@ -1,0 +1,21 @@
+# summary: Page of genes linked to Key Events / KERs, with link counts, ordered by symbol
+# param: limit int
+# param: offset int
+# HGNC symbols are unique per gene, so grouping on the symbol does not split genes; Virtuoso does
+# not allow ordering on an aggregate alias.
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX aopwiki: <https://aopwiki.rdf.bigcat-bioinformatics.org/>
+PREFIX edam: <http://edamontology.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?gene ?symbol (COUNT(DISTINCT ?ke) AS ?ke_count) (COUNT(DISTINCT ?ker) AS ?ker_count)
+FROM <urn:aopwiki:graph>
+WHERE {
+  # include: genes/_filters
+  OPTIONAL { ?gene rdfs:label ?symbol }
+  OPTIONAL { ?entity a aopo:KeyEvent . BIND(?entity AS ?ke) }
+  OPTIONAL { ?entity a aopo:KeyEventRelationship . BIND(?entity AS ?ker) }
+}
+GROUP BY ?gene ?symbol
+ORDER BY LCASE(STR(?symbol)) ?gene
+LIMIT ?__limit
+OFFSET ?__offset

@@ -1,0 +1,12 @@
+# summary: Stressors associated with one AOP
+# param: aop iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT DISTINCT ?stressor ?title ?chemical
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?__aop nci:C54571 ?stressor .
+  OPTIONAL { ?stressor dc:title ?title }
+  OPTIONAL { ?stressor aopo:has_chemical_entity ?chemical }
+}

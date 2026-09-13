@@ -1,0 +1,11 @@
+
+{ "head": { "link": [], "vars": ["CASID", "ChemicalName"] },
+  "results": { "distinct": false, "ordered": true, "bindings": [
+    { "CASID": { "type": "literal", "value": "117-81-7" }	, "ChemicalName": { "type": "literal", "value": "Di(2-ethylhexyl) phthalate" }},
+    { "CASID": { "type": "literal", "value": "25812-30-0" }	, "ChemicalName": { "type": "literal", "value": "Gemfibrozil" }},
+    { "CASID": { "type": "literal", "value": "3771-19-5" }	, "ChemicalName": { "type": "literal", "value": "Nafenopin" }},
+    { "CASID": { "type": "literal", "value": "41859-67-0" }	, "ChemicalName": { "type": "literal", "value": "Bezafibrate" }},
+    { "CASID": { "type": "literal", "value": "49562-28-9" }	, "ChemicalName": { "type": "literal", "value": "Fenofibrate" }},
+    { "CASID": { "type": "literal", "value": "50892-23-4" }	, "ChemicalName": { "type": "literal", "value": "Pirinixic acid" }},
+    { "CASID": { "type": "literal", "value": "52214-84-3" }	, "ChemicalName": { "type": "literal", "value": "Ciprofibrate" }},
+    { "CASID": { "type": "literal", "value": "637-07-0" }	, "ChemicalName": { "type": "literal", "value": "Clofibrate" }} ] } }

@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local configuration
+.env
+
+# Editor / assistant artefacts
+.idea/
+.vscode/
+CLAUDE.md
+.claude/
+.planning/
+CODE_REVIEW.md

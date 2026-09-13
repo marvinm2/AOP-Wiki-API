@@ -1,0 +1,15 @@
+# summary: Genes linked to the Key Events and KERs of one AOP, with the detection method(s)
+# param: aop iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX edam: <http://edamontology.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX aopwiki: <https://aopwiki.rdf.bigcat-bioinformatics.org/>
+SELECT ?entity ?gene ?symbol ?ner ?regex
+FROM <urn:aopwiki:graph>
+WHERE {
+  { ?__aop aopo:has_key_event ?entity } UNION { ?__aop aopo:has_key_event_relationship ?entity }
+  ?entity edam:data_1025 ?gene .
+  OPTIONAL { ?gene rdfs:label ?symbol }
+  BIND(EXISTS { ?entity aopwiki:geneDetectedByNER ?gene } AS ?ner)
+  BIND(EXISTS { ?entity aopwiki:geneDetectedByRegex ?gene } AS ?regex)
+}

@@ -1,0 +1,6 @@
+
+{ "head": { "link": [], "vars": ["MIE", "MolecularInitiatingEventName", "AOwebpage", "AdverseOutcomeName"] },
+  "results": { "distinct": false, "ordered": true, "bindings": [
+    { "MIE": { "type": "uri", "value": "https://identifiers.org/aop.events/167" }	, "MolecularInitiatingEventName": { "type": "literal", "value": "Activation, LXR" }	, "AOwebpage": { "type": "uri", "value": "https://identifiers.org/aop.events/459" }	, "AdverseOutcomeName": { "type": "literal", "value": "Increase, Liver steatosis" }},
+    { "MIE": { "type": "uri", "value": "https://identifiers.org/aop.events/167" }	, "MolecularInitiatingEventName": { "type": "literal", "value": "Activation, LXR" }	, "AOwebpage": { "type": "uri", "value": "https://identifiers.org/aop.events/459" }	, "AdverseOutcomeName": { "type": "literal", "value": "Increase, Liver steatosis" }},
+    { "MIE": { "type": "uri", "value": "https://identifiers.org/aop.events/167" }	, "MolecularInitiatingEventName": { "type": "literal", "value": "Activation, LXR" }	, "AOwebpage": { "type": "uri", "value": "https://identifiers.org/aop.events/345" }	, "AdverseOutcomeName": { "type": "literal", "value": "N/A, Liver Steatosis" }} ] } }

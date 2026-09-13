@@ -1,0 +1,13 @@
+# summary: One hop upstream: KERs ending at any of the given Key Events
+# param: kes iri_list
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+SELECT ?from ?ker ?to ?to_title ?aop
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?from { ?__kes }
+  ?ker aopo:has_downstream_key_event ?from ;
+    aopo:has_upstream_key_event ?to .
+  OPTIONAL { ?to dc:title ?to_title }
+  OPTIONAL { ?aop aopo:has_key_event_relationship ?ker }
+}

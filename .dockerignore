@@ -1,0 +1,16 @@
+.git
+.github
+.venv
+venv
+.env
+tests
+scripts
+docs
+**/__pycache__
+.pytest_cache
+.ruff_cache
+*.md
+!README.md
+CLAUDE.md
+.claude
+.planning

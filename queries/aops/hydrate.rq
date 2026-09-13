@@ -1,0 +1,18 @@
+# summary: List fields for a set of AOPs, one (aop, field, value) row per value
+# param: aops iri_list
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT ?aop ?field ?value
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?aop { ?__aops }
+  { ?aop dc:title ?value . BIND("title" AS ?field) }
+  UNION { ?aop dcterms:alternative ?value . BIND("short_name" AS ?field) }
+  UNION { ?aop nci:C25688 ?value . BIND("oecd_status" AS ?field) }
+  UNION { ?aop dcterms:created ?value . BIND("created" AS ?field) }
+  UNION { ?aop dcterms:modified ?value . BIND("modified" AS ?field) }
+  UNION { ?aop aopo:has_molecular_initiating_event ?value . BIND("mie" AS ?field) }
+  UNION { ?aop aopo:has_adverse_outcome ?value . BIND("ao" AS ?field) }
+}

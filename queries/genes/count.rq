@@ -1,0 +1,10 @@
+# summary: Number of genes matching the filters
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX aopwiki: <https://aopwiki.rdf.bigcat-bioinformatics.org/>
+PREFIX edam: <http://edamontology.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT (COUNT(DISTINCT ?gene) AS ?total)
+FROM <urn:aopwiki:graph>
+WHERE {
+  # include: genes/_filters
+}

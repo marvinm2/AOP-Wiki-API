@@ -1,0 +1,8 @@
+# summary: Is the dataset loaded? (false while the store is empty or being reloaded)
+# param: dataset iri
+PREFIX pav: <http://purl.org/pav/>
+ASK
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?__dataset pav:version ?version .
+}

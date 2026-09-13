@@ -1,0 +1,12 @@
+# summary: Number of AOPs matching the filters
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX ncbitaxon: <http://purl.bioontology.org/ontology/NCBITAXON/>
+SELECT (COUNT(DISTINCT ?aop) AS ?total)
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?aop a aopo:AdverseOutcomePathway .
+  # include: aops/_filters
+}

@@ -1,0 +1,13 @@
+# summary: Measurement methods described for the Key Events of a set of AOPs
+# param: aops iri_list
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX mmo: <http://purl.obolibrary.org/obo/MMO_>
+SELECT ?aop ?ke ?title ?method
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?aop { ?__aops }
+  ?aop aopo:has_key_event ?ke .
+  ?ke mmo:0000000 ?method .
+  OPTIONAL { ?ke dc:title ?title }
+}

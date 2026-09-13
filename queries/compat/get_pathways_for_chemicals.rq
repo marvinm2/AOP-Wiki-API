@@ -1,0 +1,38 @@
+# summary: grlc get-pathways-for-chemicals: WikiPathways pathways containing chemicals whose name contains the text
+# (fixed: WikiPathways writes ChEBI as CHEBI:<n>, the aggregate needs GROUP BY, and Virtuoso applies
+# a FROM clause inside SERVICE, so a GRAPH block is used instead)
+# param: text literal
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
+SELECT ?ChemicalName ?mappedid ?LinkedStressor
+  (GROUP_CONCAT(DISTINCT ?LinkedAOP; separator=",") AS ?AOPs)
+  (STR(?PathwayID) AS ?Pathway_ID) (STR(?PathwayTitle) AS ?PathwayName) ?PathwayURI
+WHERE {
+  GRAPH <urn:aopwiki:graph> {
+    ?cheLook a cheminf:000000 ;
+      dc:title ?ChemicalName ;
+      dcterms:isPartOf ?LinkedStressor ;
+      skos:exactMatch ?mappedid .
+    ?mappedid a cheminf:000407 .
+    ?LinkedStressor dcterms:isPartOf ?LinkedAOPURI .
+    ?LinkedAOPURI a aopo:AdverseOutcomePathway ;
+      rdfs:label ?LinkedAOP .
+    FILTER(CONTAINS(LCASE(STR(?ChemicalName)), ?__text))
+  }
+  BIND(IRI(CONCAT("https://identifiers.org/chebi/CHEBI:", STRAFTER(STR(?mappedid), "/chebi/")))
+    AS ?wpChebi)
+  SERVICE <https://sparql.wikipathways.org/sparql> {
+    ?metabolite wp:bdbChEBI ?wpChebi ;
+      dcterms:isPartOf ?PathwayURI .
+    ?PathwayURI a wp:Pathway ;
+      dcterms:identifier ?PathwayID ;
+      dc:title ?PathwayTitle .
+  }
+}
+GROUP BY ?ChemicalName ?mappedid ?LinkedStressor ?PathwayID ?PathwayTitle ?PathwayURI
+ORDER BY DESC(?ChemicalName)

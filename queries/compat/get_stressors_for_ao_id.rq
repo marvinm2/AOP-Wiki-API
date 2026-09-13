@@ -1,0 +1,22 @@
+# summary: grlc get-stressors-for-ao (ID): stressors and chemicals of the AOPs leading to an adverse outcome
+# (fixed: the original built an http:// IRI and returned nothing)
+# param: ao iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+SELECT ?AO ?AOname ?StressorName ?ChemicalName
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?AO { ?__ao }
+  ?AO a aopo:KeyEvent ;
+    dc:title ?AOname .
+  ?AOP a aopo:AdverseOutcomePathway ;
+    aopo:has_adverse_outcome ?AO ;
+    nci:C54571 ?Stressor .
+  ?Stressor dc:title ?StressorName .
+  OPTIONAL {
+    ?Stressor aopo:has_chemical_entity ?Chemical .
+    ?Chemical dc:title ?ChemicalName .
+  }
+}
+ORDER BY DESC(?AO)

@@ -1,0 +1,19 @@
+# summary: grlc get-methods-for-multiple-aops: measurement methods for a comma-separated list of AOPs
+# (fixed: the original used Jena's apf:strSplit, which Virtuoso does not support; the list is now
+# split and validated by the API)
+# param: aops iri_list
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX mmo: <http://purl.obolibrary.org/obo/MMO_>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?AopLabel ?KeLookUp ?AssayText
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?aopid { ?__aops }
+  ?aopid a aopo:AdverseOutcomePathway ;
+    rdfs:label ?AopLabel .
+  ?KeLook a aopo:KeyEvent ;
+    rdfs:label ?KeLookUp ;
+    dcterms:isPartOf ?aopid ;
+    mmo:0000000 ?AssayText .
+}

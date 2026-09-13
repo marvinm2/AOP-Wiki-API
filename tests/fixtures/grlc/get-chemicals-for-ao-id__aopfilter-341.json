@@ -1,0 +1,20 @@
+
+{ "head": { "link": [], "vars": ["AOname", "CASID"] },
+  "results": { "distinct": false, "ordered": true, "bindings": [
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "115-09-3" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "142-47-2" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "14797-55-8" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "14797-73-0" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "2921-88-2" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "302-04-5" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "5598-15-2" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "56-38-2" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "6384-92-5" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "7439-92-1" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "7439-96-5" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "7440-38-2" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "7440-43-9" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "7487-94-7" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "79-06-1" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "80-05-7" }},
+    { "AOname": { "type": "literal", "value": "Impairment, Learning and memory" }	, "CASID": { "type": "literal", "value": "96-64-0" }} ] } }

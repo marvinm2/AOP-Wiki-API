@@ -1,0 +1,8 @@
+# summary: 1 when the entity exists with the given rdf:type, otherwise 0
+# param: entity iri
+# param: type iri
+SELECT (COUNT(*) AS ?found)
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?__entity a ?__type .
+}

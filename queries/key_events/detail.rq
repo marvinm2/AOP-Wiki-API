@@ -1,0 +1,62 @@
+# summary: All fields of one Key Event: context, biological events, AOPs (with role) and genes
+# param: ke iri
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX aopwiki: <https://aopwiki.rdf.bigcat-bioinformatics.org/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX edam: <http://edamontology.org/>
+PREFIX mmo: <http://purl.obolibrary.org/obo/MMO_>
+PREFIX nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX ncbitaxon: <http://purl.bioontology.org/ontology/NCBITAXON/>
+PREFIX pato: <http://purl.obolibrary.org/obo/PATO_>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?field ?value ?title ?process ?process_title ?object ?object_title ?action
+  ?is_mie ?is_ao ?ner ?regex
+FROM <urn:aopwiki:graph>
+WHERE {
+  { ?__ke a ?value . BIND("type" AS ?field) }
+  UNION { ?__ke dc:title ?value . BIND("title" AS ?field) }
+  UNION { ?__ke dcterms:alternative ?value . BIND("short_name" AS ?field) }
+  UNION { ?__ke nci:C25664 ?value . BIND("level" AS ?field) }
+  UNION { ?__ke dc:description ?value . BIND("description" AS ?field) }
+  UNION { ?__ke mmo:0000000 ?value . BIND("method" AS ?field) }
+  UNION { ?__ke nci:C17469 ?value . BIND("applicability" AS ?field) }
+  UNION { ?__ke pato:0000047 ?value . BIND("sex" AS ?field) }
+  UNION { ?__ke aopo:LifeStageContext ?value . BIND("life_stage" AS ?field) }
+  UNION {
+    ?__ke ncbitaxon:131567 ?value .
+    BIND("taxon" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+  UNION {
+    ?__ke aopo:OrganContext ?value .
+    BIND("organ" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+  UNION {
+    ?__ke aopo:CellTypeContext ?value .
+    BIND("cell_type" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+  }
+  UNION {
+    ?__ke aopo:hasBiologicalEvent ?value .
+    BIND("biological_event" AS ?field)
+    OPTIONAL { ?value aopo:hasProcess ?process . OPTIONAL { ?process dc:title ?process_title } }
+    OPTIONAL { ?value aopo:hasObject ?object . OPTIONAL { ?object dc:title ?object_title } }
+    OPTIONAL { ?value aopo:hasAction ?action }
+  }
+  UNION {
+    ?value aopo:has_key_event ?__ke .
+    BIND("aop" AS ?field)
+    OPTIONAL { ?value dc:title ?title }
+    BIND(EXISTS { ?value aopo:has_molecular_initiating_event ?__ke } AS ?is_mie)
+    BIND(EXISTS { ?value aopo:has_adverse_outcome ?__ke } AS ?is_ao)
+  }
+  UNION {
+    ?__ke edam:data_1025 ?value .
+    BIND("gene" AS ?field)
+    OPTIONAL { ?value rdfs:label ?title }
+    BIND(EXISTS { ?__ke aopwiki:geneDetectedByNER ?value } AS ?ner)
+    BIND(EXISTS { ?__ke aopwiki:geneDetectedByRegex ?value } AS ?regex)
+  }
+}

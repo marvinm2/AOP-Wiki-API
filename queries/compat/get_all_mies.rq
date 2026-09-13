@@ -1,0 +1,12 @@
+# summary: grlc get-all-mies: all molecular initiating events (fixed: DISTINCT, one row per MIE)
+PREFIX aopo: <http://aopkb.org/aop_ontology#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT DISTINCT ?MIE ?MIETitle ?MIEID
+FROM <urn:aopwiki:graph>
+WHERE {
+  ?AOP a aopo:AdverseOutcomePathway ;
+    aopo:has_molecular_initiating_event ?MIE .
+  ?MIE dc:title ?MIETitle ;
+    rdfs:label ?MIEID .
+}

@@ -1,0 +1,20 @@
+# param: aop iri optional
+# param: upstream iri optional
+# param: downstream iri optional
+# param: ke iri optional
+# param: gene iri optional
+  # if: aop
+  ?__aop aopo:has_key_event_relationship ?ker .
+  # endif
+  # if: upstream
+  ?ker aopo:has_upstream_key_event ?__upstream .
+  # endif
+  # if: downstream
+  ?ker aopo:has_downstream_key_event ?__downstream .
+  # endif
+  # if: ke
+  { ?ker aopo:has_upstream_key_event ?__ke } UNION { ?ker aopo:has_downstream_key_event ?__ke }
+  # endif
+  # if: gene
+  ?ker edam:data_1025 ?__gene .
+  # endif

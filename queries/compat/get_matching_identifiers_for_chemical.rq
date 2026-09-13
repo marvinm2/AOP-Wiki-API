@@ -1,0 +1,15 @@
+# summary: grlc get-matching-identifiers-for-chemical: external identifiers mapped to a chemical
+# (fixed: the documented http:// IRI default matched nothing; the IRI is rebuilt with https)
+# param: chemical iri
+PREFIX cheminf: <http://semanticscience.org/resource/CHEMINF_>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?CAS ?ChemicalName ?MatchingIDs
+FROM <urn:aopwiki:graph>
+WHERE {
+  VALUES ?chemical { ?__chemical }
+  ?chemical a cheminf:000000 ;
+    dc:title ?ChemicalName ;
+    cheminf:000446 ?CAS ;
+    skos:exactMatch ?MatchingIDs .
+}
