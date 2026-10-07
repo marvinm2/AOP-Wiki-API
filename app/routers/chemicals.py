@@ -79,7 +79,14 @@ def _xref_filter(request: Request) -> tuple[str, IriList] | None:
     name, value = given[0]
     if name == "chebi":
         chebi = parse_param(name, ids.parse_chebi, value)
-        return name, IriList((Iri(f"{ids.IDENTIFIERS_ORG}chebi/{chebi}"),))
+        # AOPWikiRDF moved to the resolvable `chebi/CHEBI:<n>` form; match the older
+        # bare `chebi/<n>` form too until every loaded graph uses the new one.
+        return name, IriList(
+            (
+                Iri(f"{ids.IDENTIFIERS_ORG}chebi/CHEBI:{chebi}"),
+                Iri(f"{ids.IDENTIFIERS_ORG}chebi/{chebi}"),
+            )
+        )
     return name, IriList(tuple(parse_param(name, lambda v: ids.parse_xref(name, v), value)))
 
 

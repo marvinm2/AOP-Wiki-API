@@ -24,7 +24,7 @@ WHERE {
       rdfs:label ?LinkedAOP .
     FILTER(CONTAINS(LCASE(STR(?ChemicalName)), ?__text))
   }
-  BIND(IRI(CONCAT("https://identifiers.org/chebi/CHEBI:", STRAFTER(STR(?mappedid), "/chebi/")))
+  BIND(IRI(CONCAT("https://identifiers.org/chebi/CHEBI:", REPLACE(STR(?mappedid), "^.*/chebi/(CHEBI:)?", "")))
     AS ?wpChebi)
   SERVICE <https://sparql.wikipathways.org/sparql> {
     ?metabolite wp:bdbChEBI ?wpChebi ;

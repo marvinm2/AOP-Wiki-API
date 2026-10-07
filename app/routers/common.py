@@ -111,6 +111,8 @@ def xrefs_by_namespace(iris: Iterable[str]) -> dict[str, list[str]]:
         if not iri.startswith(IDENTIFIERS_ORG):
             continue
         namespace, _, local = iri[len(IDENTIFIERS_ORG) :].partition("/")
+        if namespace == "chebi":
+            local = local.removeprefix("CHEBI:")
         if namespace and local and local not in grouped.setdefault(namespace, []):
             grouped[namespace].append(local)
     return {ns: sorted(values) for ns, values in sorted(grouped.items())}

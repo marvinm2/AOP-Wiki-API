@@ -56,7 +56,7 @@ CHEMICAL_DETAIL = bindings(
     {"field": "comptox", "value": f"{IDS}comptox/DTXSID6021248"},
     {"field": "synonym", "value": "tubatoxin"},
     {"field": "synonym", "value": "Derris"},
-    {"field": "xref", "value": f"{IDS}chebi/28201"},
+    {"field": "xref", "value": f"{IDS}chebi/CHEBI:28201"},
     {"field": "xref", "value": f"{IDS}hmdb/HMDB34436"},
     {"field": "xref", "value": f"{IDS}hmdb/HMDB0034436"},
     {"field": "stressor", "value": f"{STRESSOR}50", "title": "Rotenone"},
@@ -82,7 +82,7 @@ def test_chemical_xref_filters(client: TestClient, virtuoso: FakeVirtuoso):
     virtuoso.add("COUNT(DISTINCT ?chemical) AS ?total", bindings({"total": 0}))
     assert client.get("/v1/chemicals?chebi=CHEBI:28201").status_code == 200
     query = next(q for q in virtuoso.queries if "?total" in q)
-    assert f"VALUES ?filter_xref {{ <{IDS}chebi/28201> }}" in query
+    assert f"VALUES ?filter_xref {{ <{IDS}chebi/CHEBI:28201> <{IDS}chebi/28201> }}" in query
     virtuoso.queries.clear()
     client.get("/v1/chemicals?hmdb=HMDB34436")
     query = next(q for q in virtuoso.queries if "?total" in q)

@@ -13,7 +13,7 @@ WHERE {
     ?__chemical skos:exactMatch ?chebi_xref .
     ?chebi_xref a cheminf:000407 .
   }
-  BIND(IRI(CONCAT("https://identifiers.org/chebi/CHEBI:", STRAFTER(STR(?chebi_xref), "/chebi/")))
+  BIND(IRI(CONCAT("https://identifiers.org/chebi/CHEBI:", REPLACE(STR(?chebi_xref), "^.*/chebi/(CHEBI:)?", "")))
     AS ?chebi)
   SERVICE <https://sparql.wikipathways.org/sparql> {
     ?metabolite wp:bdbChEBI ?chebi ;
