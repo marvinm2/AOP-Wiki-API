@@ -9,7 +9,8 @@ Template conventions (see `queries/README.md`):
 - Lines between `# if: <name>` and `# endif` are kept only when the optional parameter is given
   or the flag is set.
 - `# include: <name>` inlines the partial `<name>.rqi` (filters shared by list and count queries).
-- `<urn:aopwiki:graph>` is replaced with the configured data graph.
+- `<urn:aopwiki:graph>` is replaced with the configured data graph, and
+  `<urn:aopwiki:void-graph>` with the graph holding the VoID (the data graph when unset).
 """
 
 from __future__ import annotations
@@ -22,6 +23,7 @@ from pathlib import Path
 from app.sparql.terms import Int, Iri, IriList, Lit, LitList, Term
 
 GRAPH_TOKEN = "<urn:aopwiki:graph>"
+VOID_GRAPH_TOKEN = "<urn:aopwiki:void-graph>"
 PLACEHOLDER = re.compile(r"\?__([a-z][a-z0-9_]*)\b")
 TERM_TYPES: dict[str, type[Term]] = {
     "int": Int,
@@ -131,7 +133,14 @@ class QueryTemplate:
 
         return cls(name=name, text=text, summary=summary, params=params, flags=frozenset(flags))
 
-    def render(self, graph: str, flags: Iterable[str] = (), **terms: Term | None) -> str:
+    def render(
+        self,
+        graph: str,
+        flags: Iterable[str] = (),
+        *,
+        void_graph: str | None = None,
+        **terms: Term | None,
+    ) -> str:
         active = frozenset(flags)
         if unknown_flags := active - self.flags:
             raise QueryTemplateError(f"{self.name}: unknown flags {sorted(unknown_flags)}")
@@ -167,15 +176,17 @@ class QueryTemplate:
 
         body = "\n".join(out).strip() + "\n"
         body = PLACEHOLDER.sub(lambda m: terms[m.group(1)].n3(), body)  # type: ignore[union-attr]
+        body = body.replace(VOID_GRAPH_TOKEN, Iri(void_graph or graph).n3())
         return body.replace(GRAPH_TOKEN, Iri(graph).n3())
 
 
 class QueryLoader:
     """All templates under a directory, addressed as `<subdir>/<stem>` (e.g. `aops/list`)."""
 
-    def __init__(self, root: Path, graph: str) -> None:
+    def __init__(self, root: Path, graph: str, void_graph: str | None = None) -> None:
         self.root = root
         self.graph = graph
+        self.void_graph = void_graph
         self._templates: dict[str, QueryTemplate] = {}
         for path in sorted(root.rglob("*.rq")):
             name = path.relative_to(root).with_suffix("").as_posix()
@@ -208,4 +219,4 @@ class QueryLoader:
             raise QueryTemplateError(f"no query template named {name!r}") from None
 
     def render(self, name: str, flags: Iterable[str] = (), **terms: Term | None) -> str:
-        return self.get(name).render(self.graph, flags, **terms)
+        return self.get(name).render(self.graph, flags, void_graph=self.void_graph, **terms)

@@ -4,6 +4,7 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX void: <http://rdfs.org/ns/void#>
 SELECT ?p ?o
 FROM <urn:aopwiki:graph>
+FROM <urn:aopwiki:void-graph>
 WHERE {
   VALUES ?p { dcterms:title dcterms:license void:sparqlEndpoint void:dataDump }
   ?__dataset ?p ?o .

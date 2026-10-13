@@ -54,7 +54,7 @@ def create_app(
     @contextlib.asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         client = SparqlClient(settings, transport=transport)
-        loader = QueryLoader(settings.queries_dir, settings.data_graph)
+        loader = QueryLoader(settings.queries_dir, settings.data_graph, settings.void_graph)
         data = DataService(settings, client, loader)
         app.state.data = data
         await data.refresh_version()

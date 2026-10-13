@@ -3,6 +3,7 @@
 PREFIX pav: <http://purl.org/pav/>
 SELECT ?version ?created ?commit
 FROM <urn:aopwiki:graph>
+FROM <urn:aopwiki:void-graph>
 WHERE {
   ?__dataset pav:version ?version .
   OPTIONAL { ?__dataset pav:createdOn ?created }
