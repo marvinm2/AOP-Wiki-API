@@ -109,3 +109,15 @@ def test_loader_names_templates_by_relative_path(tmp_path):
     with pytest.raises(QueryTemplateError):
         loader.get("aops/missing")
     assert Iri("urn:x")  # urn scheme is a valid IRI
+
+
+def test_void_graph_token(tmp_path):
+    (tmp_path / "version.rq").write_text(
+        "SELECT ?v FROM <urn:aopwiki:graph> FROM <urn:aopwiki:void-graph> WHERE { ?s ?p ?v }\n"
+    )
+    split = QueryLoader(tmp_path, "http://aopwiki.org/", "http://aopwiki.org/void")
+    assert "FROM <http://aopwiki.org/> FROM <http://aopwiki.org/void>" in split.render("version")
+    # Without a separate VoID graph the token falls back to the data graph.
+    single = QueryLoader(tmp_path, "http://aopwiki.org/")
+    assert "urn:aopwiki" not in single.render("version")
+    assert single.render("version").count("<http://aopwiki.org/>") == 2

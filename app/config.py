@@ -17,6 +17,8 @@ class Settings(BaseSettings):
     # http://aopwiki-snorql_virtuoso:8890/sparql
     sparql_endpoint: str = "https://aopwiki.rdf.bigcat-bioinformatics.org/sparql"
     data_graph: str = "http://aopwiki.org/"
+    # The VoID (pav:version, licence, dumps) lives in its own graph since AOPWikiRDF#125.
+    void_graph: str = "http://aopwiki.org/void"
     dataset_iri: str = "https://aopwiki.rdf.bigcat-bioinformatics.org/AOPWikiRDF"
     public_base_url: str = "https://aopwiki.api.bigcat-bioinformatics.org"
 
