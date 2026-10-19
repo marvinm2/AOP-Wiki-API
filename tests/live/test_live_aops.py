@@ -35,9 +35,11 @@ def test_ready(live: TestClient):
 
 def test_dataset_counts(live: TestClient):
     counts = live.get("/v1/dataset").json()["data"]["counts"]
-    assert counts["aops"] >= 590
-    assert counts["key_events"] >= 1600
-    assert counts["kers"] >= 2300
+    # Floors sit ~10% under the 2026-10 counts: they catch a collapsed or partial load,
+    # not upstream curation (KEs 1637/1641/1642 left the export in Oct 2026, 1602 -> 1599).
+    assert counts["aops"] >= 540
+    assert counts["key_events"] >= 1440
+    assert counts["kers"] >= 2140
     assert counts["chemicals"] >= 400
 
 
